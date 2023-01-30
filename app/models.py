@@ -31,3 +31,12 @@ class Student(models.Model):
     classroom = models.ForeignKey(Classroom, blank=True, null=True, on_delete=models.CASCADE, related_name='student_details')
     joined_on = models.DateField(default=timezone.now)
 
+class Accounts(models.Model):
+    name = models.CharField(max_length=55)
+    designation = models.CharField(max_length=55)
+    email = models.EmailField(unique = True)
+    password = models.TextField()
+
+class MyAccount(models.Model):
+    username = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=100)
