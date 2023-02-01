@@ -6,5 +6,8 @@ admin.site.register(Student)
 admin.site.register(Classroom)
 admin.site.register(Accounts)
 admin.site.register(MyAccount)
+admin.site.register(User)
+
+
 
 

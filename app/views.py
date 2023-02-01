@@ -20,6 +20,7 @@ from rest_framework import generics
 from rest_framework.decorators import authentication_classes, permission_classes
 
 
+
 fake = Faker()
 
 
@@ -155,3 +156,32 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
 
         return self.request.user
 
+# --------------------------------------------------------------------------------------------------------------------------------------
+class RegisterView(APIView):
+    
+    def post(self, request):
+
+        # try:
+
+        serializer = CustomeUserSerializer(data = request.data)
+        if not serializer.is_valid():
+
+            return Response({"status":403,'errors':serializers.errors})
+
+        serializer.save()
+        user = User.objects.get(email = serializer.data['email'])
+        # token_obj , _ = Token.objects.get_or_create(user=user)
+
+        ################ for jwt ###################################
+        refresh = RefreshToken.for_user(user)
+
+        # return Response({'status':200,'data':serializer.data,'token_obj':str(token_obj),'message':'your data is saved'})
+
+        return Response({'status':200,
+        'data':serializer.data,
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+        'message':'your data is saved'})
+
+
+       
